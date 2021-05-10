@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, send_file
 import json
-import wordParse
+#import wordParse
 
 
 app = Flask(__name__, static_url_path='')
