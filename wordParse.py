@@ -1,4 +1,4 @@
-import nltk
+from nltk import pos_tag
 from nltk.tokenize import WhitespaceTokenizer
 
 
@@ -44,7 +44,7 @@ def main(tweet):
     #tweet = input("enter tweet here: ")
     tk = WhitespaceTokenizer()
     words = tk.tokenize(tweet)
-    words_with_pos = nltk.pos_tag(words)
+    words_with_pos = pos_tag(words)
     queries = formQueries(words_with_pos)
     return queries
 
