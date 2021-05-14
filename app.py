@@ -1,7 +1,5 @@
-from flask import Flask, request, jsonify, send_file
-import json
-#import wordParse
-
+from flask import Flask, request, jsonify, send_file, render_template
+from wordParse import main
 
 app = Flask(__name__, static_url_path='')
 
@@ -20,11 +18,13 @@ def location():
 def welcome(username):
    return 'Welcome to hello world, you stupid bitch........'+username
 
+@app.route('/tweet/', defaults={'name' : 'No val entered'})
 
-@app.route('/tweet/<query>/')
-def parse(query):
-   l = len(query)
-   return str(l)
+@app.route('/tweet/<string:tweet>/')
+def parse(tweet):
+   listofqry = main(tweet)
+
+   return render_template("show_queries.html", data=listofqry)
 
 
 
