@@ -3,7 +3,7 @@ from nltk.tokenize import WhitespaceTokenizer
 
 
 def formQueries(parsed_words):
-   qarr = []
+    qarr = []
     query = ""
     referred_nouns = "" # this used to refer to the same noun in the case of conjunctions
     new_noun = 1
