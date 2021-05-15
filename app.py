@@ -8,12 +8,6 @@ app = Flask(__name__, static_url_path='')
 def root():
    return 'Hello World'
 
-@app.route('/sanfrancisco/')
-
-def location():
-   return 'You are in SF, bitchhhhh, lets get some boba tea>?>>>'
-
-
 @app.route('/user/<username>/')
 def welcome(username):
    return 'Welcome to hello world, you stupid bitch........'+username
