@@ -18,7 +18,7 @@ def welcome(username):
 def parse(tweet):
    listofqry = main(tweet)
 
-   return render_template("show_queries.html", data=listofqry)
+   return listofqry[0]
 
 
 
