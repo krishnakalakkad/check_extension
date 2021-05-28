@@ -1,5 +1,22 @@
 from nltk import pos_tag
 from nltk.tokenize import WhitespaceTokenizer
+import requests
+from bs4 import BeautifulSoup
+
+def formURL(qry):
+    encoded_qry = parse.urlencode(qry)
+    url = "https://www.snopes.com/?s=" + encoded_qry + "&orderby=date"
+    return url
+
+def scrapeForEachQuery(queries):
+    """for qry in queries:
+        url = formURL(qry)
+        print(url)"""
+    r = requests.get("https://www.snopes.com/?s=kamala+harris+purse&orderby=date")
+    data = r.text
+    source = BeautifulSoup(data, "html.parser")
+    first_article = source.find("a", {"class": "link"})
+    return first_article.get('href')
 
 
 def formQueries(parsed_words):
@@ -46,7 +63,11 @@ def main(tweet):
     words = tk.tokenize(tweet)
     words_with_pos = pos_tag(words)
     queries = formQueries(words_with_pos)
-    return queries
+    return scrapeForEachQuery(queries)
+
+
+main("Kamala Harris openly encouraged rioters and directly funded domestic terrorism. She needs to be impeached.")
+
 
 
 #if __name__ == "__main__":
