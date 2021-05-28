@@ -4,19 +4,30 @@ import requests
 from bs4 import BeautifulSoup
 
 def formURL(qry):
-    encoded_qry = parse.urlencode(qry)
+    encoded_qry = qry.replace(" ", "+")
     url = "https://www.snopes.com/?s=" + encoded_qry + "&orderby=date"
     return url
 
 def scrapeForEachQuery(queries):
-    """for qry in queries:
-        url = formURL(qry)
-        print(url)"""
-    r = requests.get("https://www.snopes.com/?s=kamala+harris+purse&orderby=date")
-    data = r.text
-    source = BeautifulSoup(data, "html.parser")
-    first_article = source.find("a", {"class": "link"})
-    return first_article.get('href')
+    articles_with_verdicts = []
+    for qry in queries:
+        search_page_url = formURL(qry)
+        search_request = requests.get(search_page_url)
+        data = search_request.text
+        search_htmldom = BeautifulSoup(data, "html.parser")
+        first_article = search_htmldom.find("a", {"class": "link"})
+        article_link = first_article.get('href')
+        if article_link[23] == 'f':
+            article_request = requests.get(article_link)
+            data = article_request.text
+            article_htmldom = BeautifulSoup(data, "html.parser")
+            title = article_htmldom.select('h1.title')[0].text.strip()
+            verdict = (article_htmldom.find("img", {"class" : "figure-image img-responsive img-fluid w-100"}))['alt']
+            articles_with_verdicts.append((title, verdict))
+
+    return articles_with_verdicts
+
+
 
 
 def formQueries(parsed_words):
@@ -66,7 +77,7 @@ def main(tweet):
     return scrapeForEachQuery(queries)
 
 
-main("Kamala Harris openly encouraged rioters and directly funded domestic terrorism. She needs to be impeached.")
+#main("Kamala Harris openly encouraged rioters and directly funded domestic terrorism. She needs to be impeached.")
 
 
 
