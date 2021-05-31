@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, send_file, render_template
+import json
 from wordParse import main
 
 app = Flask(__name__, static_url_path='')
@@ -16,10 +17,11 @@ def welcome(username):
 
 @app.route('/tweet/<string:tweet>/')
 def parse(tweet):
-   listofqry = main(tweet)
-
-   return render_template("show_queries.html", data=listofqry)
-
+   listoflinks = main(tweet)
+   """print(listoflinks)
+   return render_template("show_queries.html", data=listoflinks)
+   """
+   return json.dumps(listoflinks)
 
 if __name__ == "__main__":
    app.run()
