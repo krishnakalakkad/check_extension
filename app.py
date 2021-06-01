@@ -1,8 +1,11 @@
 from flask import Flask, request, jsonify, send_file, render_template
+from flask_cors import CORS
 import json
 from wordParse import main
 
 app = Flask(__name__, static_url_path='')
+CORS(app)
+
 
 @app.route('/')
 
